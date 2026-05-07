@@ -15,8 +15,10 @@ Punto de entrada del segundo cerebro. Todo lo que necesitas saber sobre BlackWol
 | Si vienes a... | Empieza por |
 |---|---|
 | Entender la empresa | [[BlackWolf-Identidad]] · [[Modelo-de-Negocio]] |
-| Saber cómo funciona la plataforma | [[Arquitectura-General]] · [[Dashboard-Ops]] · [[Enjambre-API]] |
-| Onboardear cliente nuevo | [[Playbook-Onboarding-Cliente-Nuevo]] |
+| Saber cómo funciona la plataforma BlackWolf | [[Arquitectura-General]] · [[Dashboard-Ops]] · [[Enjambre-API]] |
+| **Saber qué es Cargonex** (segunda línea de producto) | [[Cargonex]] · [[Cargonex-Arquitectura]] |
+| Onboardear cliente nuevo en Dashboard-Ops | [[Playbook-Onboarding-Cliente-Nuevo]] |
+| Onboardear tenant Cargonex (logística) | [[Playbook-Crear-Tenant-Cargonex]] |
 | Investigar un cliente concreto | [[_MOC-Clientes]] |
 | Saber qué está roto y qué hay que arreglar | [[Bugs-Criticos]] · [[Deuda-Tecnica]] · [[Codigo-Zombie]] |
 | Decidir el siguiente paso | [[Roadmap-Estrategico]] · [[_MOC-Roadmap]] |
@@ -41,21 +43,32 @@ Punto de entrada del segundo cerebro. Todo lo que necesitas saber sobre BlackWol
 
 ## 🚨 Estado actual (2026-05-07)
 
-**En producción y operativo:**
+**Dashboard-Ops (BlackWolf platform) — en producción y operativo:**
 - Dashboard-Ops sirviendo a 16 tenants en `central.blackwolfsec.io`
 - Enjambre-API en `enjambre.blackwolfsec.io` vía Cloudflare Tunnel
 - Donna en Telegram, Army-CRM commander activo
 - Stripe live (Hugo + Asesoría Suiza), Resend live, WhatsApp web.js multi-sesión
 
+**[[Cargonex]] (segunda línea de producto) — en producción y operativo:**
+- Marketing landing live en `web.cargonex.co`
+- Portal cliente + activación PI-key live en `app.cargonex.co/portal`
+- Slug routing operativo (`app.cargonex.co/EilersLogistik`)
+- Admin con datos reales en `app.cargonex.co/admin` (rebrandeado 2026-05-07)
+- [[Eilers-Logistik]] live: 231 Fahrer / 162 Fahrzeuge / 8343 records
+- Stack: Express + Postgres + Cloudflare Tunnel en VPS compartido — ver [[Host-Docker-Layout]]
+
 **En curso:**
 - [[Portal-Infoproducto]] — Hitos 1-5 mergeables, falta merge a main + setear `PORTAL_JWT_SECRET` + smoke test
 - Hito 6 (cableado contenido real en tabs Hub) — pendiente
+- Cargonex: SMTP cutover a Resend, DSGVO docs Eilers, mobile PIN test
 
 **Sangrando:**
 - Las API keys que circularon en chat (Stripe, Resend, Anthropic, Supabase) **no se han rotado todavía**. Ver [[Bugs-Criticos#C1]].
 - Webhook Stripe Hugo NO configurado → revenue de Hugo no se sincroniza al CRM. Ver [[Bugs-Criticos#C2]].
 - RLS = "ALLOW ALL" en 127 tablas → multi-tenant solo es enforced en frontend. Ver [[RLS-y-Seguridad]].
 - `localStorage('bw_superadmin')` = privilege escalation trivial. Ver [[Bugs-Criticos#C5]].
+- **Cargonex `PLATFORM_ADMIN_SECRET = "testtoken123"`** en producción — placeholder de dev sin rotar. Anyone con ese string toma `/admin` de Cargonex. Ver [[Cargonex#Estado]].
+- Token GitHub PAT compartido en chat el 2026-05-07 (push a `eilerrs-portal`) — sin rotar. Ver [[Politica-de-Secretos]].
 
 ---
 

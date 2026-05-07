@@ -5,13 +5,25 @@ created: 2026-05-07
 
 # MOC — Plataforma
 
-Map of Content de la plataforma técnica BlackWolf. Tres componentes vivos: Dashboard-Ops (frontend), enjambre-api (backend), Donna + Army (capa cognitiva).
+Map of Content de las plataformas técnicas BlackWolf. **Dos productos en producción**:
+
+1. **Dashboard-Ops** — el SaaS multi-tenant histórico (16 tenants growth/consultoría/etc en `central.blackwolfsec.io`). Tres componentes vivos: Dashboard-Ops (frontend), enjambre-api (backend), Donna + Army (capa cognitiva).
+2. **[[Cargonex]]** — segunda línea de producto, SaaS multi-tenant para logística europea (`app.cargonex.co`). Cliente fundador [[Eilers-Logistik]]. Stack y deploy independientes — ver [[ADR-Cargonex-Stack-Separado]].
 
 ## Visión global
 
-- [[Arquitectura-General]] — diagrama y flujos entre componentes
-- [[ClientTypes]] — qué tipos de clientes existen y qué módulos ven
-- [[Multi-Tenant]] — cómo se aísla cada tenant (y cómo NO se aísla)
+- [[Arquitectura-General]] — diagrama y flujos entre componentes (Dashboard-Ops)
+- [[Cargonex-Arquitectura]] — diagrama y flujos (Cargonex)
+- [[ClientTypes]] — qué tipos de clientes existen y qué módulos ven (Dashboard-Ops)
+- [[Multi-Tenant]] — cómo se aísla cada tenant en Dashboard-Ops (y cómo NO se aísla)
+
+## Cargonex (segunda línea)
+
+- [[Cargonex]] — overview, URLs, status, env
+- [[Cargonex-Arquitectura]] — slug routing, multi-tenant via JSON files, SW, API
+- [[Eilers-Logistik]] — tenant fundador, en `db.json` legacy
+- [[Playbook-Crear-Tenant-Cargonex]] — onboarding nuevo cliente Cargonex
+- [[ADR-Cargonex-Stack-Separado]] — por qué stack separado de Dashboard-Ops
 
 ## Frontend — Dashboard-Ops
 

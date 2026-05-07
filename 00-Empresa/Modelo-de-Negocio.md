@@ -36,6 +36,16 @@ BlackWolf NO vende infoproductos propios, pero la plataforma está optimizada pa
 - **Wolf Trader** — trading desk
 - **SOC** — security ops, webhook en `/api/webhooks/soc`
 
+### 5. SaaS multi-tenant [[Cargonex]] (segunda línea de producto)
+
+Plataforma white-label para gestión de flotas de logística, productizada en `app.cargonex.co` con marketing propio en `web.cargonex.co`. Stack y deploy completamente separados de Dashboard-Ops — ver [[ADR-Cargonex-Stack-Separado]].
+
+- **Pricing**: tier `starter` · `professional` · `enterprise` (no enforced en producto, solo display). Cliente fundador [[Eilers-Logistik]] paga por contrato anual offline.
+- **Vertical**: logística europea, mobile-first, DSGVO-conforme.
+- **Onboarding**: PI-key (`CX-XXXXXXXX-XXXX`) emitido en `/admin` → cliente activa en `/portal` → aterriza en `/<Slug>` con DB aislada. Ver [[Playbook-Crear-Tenant-Cargonex]].
+- **Friction de cobro**: alta (igual que Dashboard-Ops). No hay billing automático integrado. Si se quiere escalar a más clientes logística, meter Stripe Connect.
+- **Oportunidad**: si el patrón Cargonex funciona con Eilers, productizar landings + pricing + Stripe automatizado para vender a más clientes logística europeos sin overhead operativo.
+
 ## Cómo gana cada cliente típico
 
 | Cliente tipo | Cómo gana | Cómo BlackWolf le ayuda |

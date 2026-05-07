@@ -5,9 +5,14 @@ created: 2026-05-07
 
 # MOC — Clientes
 
-Map of Content de los 16 tenants en producción. Cada uno tiene su brain con identidad, accesos, infraestructura, KPIs y gotchas.
+Map of Content de tenants en producción. **Dos plataformas, dos cohortes**:
 
-## Vivos en producción
+- **Dashboard-Ops** (16 tenants growth/consultoría/etc en Supabase + Vercel)
+- **[[Cargonex]]** (1 tenant logística en VPS dedicado + Postgres on-prem)
+
+Cada uno tiene su brain con identidad, accesos, infraestructura, KPIs y gotchas.
+
+## Vivos en producción — Dashboard-Ops (`central.blackwolfsec.io`)
 
 | Slug | Cliente | Tipo | Estado | Brain |
 |---|---|---|---|---|
@@ -22,17 +27,30 @@ Map of Content de los 16 tenants en producción. Cada uno tiene su brain con ide
 
 (El resto de slugs están en seed pero menos activos. Ver `clients` table en Supabase.)
 
+## Vivos en producción — Cargonex (`app.cargonex.co`)
+
+| Slug | Cliente | Tipo | Estado | Brain |
+|---|---|---|---|---|
+| `EilersLogistik` | Eilers Logistik GmbH | logistica (DE) | live · 231 Fahrer / 162 Fahrzeuge · 8343 records · `legacy:true` (en `db.json`) · DSGVO docs pendientes | [[Eilers-Logistik]] |
+
+> ⚠️ **No confundir** [[IC-Logistics]] (Dashboard-Ops, slug `yc-logistics`, ES/EN/ZH) con [[Eilers-Logistik]] (Cargonex, slug `EilersLogistik`, DE). Son plataformas distintas con bases de datos distintas, aunque ambos sean vertical "logística".
+
 ## Patrones reusables
 
-- [[Playbook-Onboarding-Cliente-Nuevo]] — Fase 0-5 del onboarding
-- [[Tipos-de-Cliente]] — `growth`, `consultoria`, `software_developing`, `manufactura`, `logistica`, `admin`
+- [[Playbook-Onboarding-Cliente-Nuevo]] — Fase 0-5 onboarding **Dashboard-Ops**
+- [[Playbook-Crear-Tenant-Cargonex]] — onboarding **Cargonex** (PI-key + slug routing)
+- [[Tipos-de-Cliente]] — `growth`, `consultoria`, `software_developing`, `manufactura`, `logistica`, `admin` (Dashboard-Ops)
 - [[Multi-Owner]] — patrón asesoria-suiza (Portillo/Lukas) y cómo escalar
 
 ## Quién paga, cuándo
 
 Ver [[Modelo-de-Negocio]] · [[Stripe]] · [[Hotmart]] (pendiente).
 
+- Tenants Dashboard-Ops: pricing a medida, billing manual hoy.
+- Eilers (Cargonex): contrato anual offline, sin Stripe integrado.
+
 ## Conexiones
 
-- Cómo se les sirve: [[_moc/MOC-Plataforma]]
-- Riesgos cross-tenant: [[Bugs-Criticos#C6]] (RLS permisivas)
+- Cómo se les sirve: [[_moc/MOC-Plataforma]] (ambas plataformas)
+- Riesgos cross-tenant Dashboard-Ops: [[Bugs-Criticos#C6]] (RLS permisivas)
+- Riesgos cross-tenant Cargonex: [[Cargonex#Estado]] (`PLATFORM_ADMIN_SECRET` placeholder)
