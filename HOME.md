@@ -66,6 +66,8 @@ Punto de entrada del segundo cerebro. Todo lo que necesitas saber sobre BlackWol
 3. Validar `JWT_SECRET` en boot (crash si falta).
 4. Empezar [[Sprint-0-Higiene]].
 
+> **Sprint operativo en producción**: [[Sprint-Arreglos]] — 54 tareas reales en `central.blackwolfsec.io/black-wolf/task-management`, sprint "Arreglos Plataforma — Auditoría 2026-05-07". 339h estimadas total. Filtrar por prioridad `high` para empezar.
+
 ---
 
 ## 🧩 Sobre Alex (tú)

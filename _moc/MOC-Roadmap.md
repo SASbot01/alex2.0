@@ -25,6 +25,10 @@ Del MVP avanzado actual al "SaaS empresarial vendible con compliance".
 | 7 | [[Sprint-7-DX-Cleanup]] | Modularizar god files | 2 semanas | pendiente |
 | 8 | [[Sprint-8-Component-Library]] | Lib UI + Storybook | 3 semanas | pendiente |
 
+## Sprint operativo
+
+- [[Sprint-Arreglos]] — **54 tareas** consolidadas de toda la auditoría, vivas en el módulo Tareas del tenant `black-wolf`. URL: `central.blackwolfsec.io/black-wolf/task-management`. Sprint UUID `4816529a-c02a-4e9a-87c6-341b072332a7`.
+
 ## En curso
 
 - [[Portal-Infoproducto]] — Hitos 1-5 mergeables · pendiente Hito 6 (cableado contenido real)
