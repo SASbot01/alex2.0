@@ -126,6 +126,58 @@ Cuando Alejandro despierte:
    - Antes de mergear `feat/sprint0-internal`: setear `CENTRAL_WEBHOOK_SECRET` en `.env` o el webhook se rompe en producción.
 4. Actualizar tareas Sprint 0 en `central.blackwolfsec.io/black-wolf/task-management` a `done` para las 3 que se cerraron.
 
+## Update 2026-05-08 (continuación)
+
+Tras el primer batch de la noche, Alejandro confirmó tener acceso Supabase en `.env` y dio luz verde para Migration 018 + renumber + release desktop.
+
+### Migration 018 RLS Fase A — APLICADA EN PRODUCCIÓN
+
+Verificación pre-aplicación: Supabase NO rastrea migrations en `supabase_migrations.schema_migrations` (no existe en este proyecto). Las migrations son docs + scripts manuales. Aplicar es seguro.
+
+Ejecutado vía Management API:
+- 17 tablas multi-tenant: ENABLE RLS + FORCE RLS
+- Policy `srv_all` (service_role bypass)
+- Policy `anon_temp_all` (permissive temporal — para no romper frontend)
+
+Smoke test post: GET /rest/v1/crm_contacts/clients/crm_pipelines = 200 OK. Sin regresiones.
+
+Documentado en: [[Migration-018-Fase-A-Aplicada]]
+
+### Renumber migrations 045-048 → 067-070
+
+PR #24 abierto y mergeado a main (commit squash merge). Solo `git mv`, sin cambio de contenido. C7 cerrado.
+
+### Release Desktop v0.1.0 — EN BUILD
+
+PRs mergeados a main de Dashboard-Ops-:
+- **PR #23**: Bootstrap Tauri completo
+- **PR #24**: Renumber migrations
+
+Tag `v0.1.0` pushed → GitHub Actions matrix en estado `queued`:
+- https://github.com/aatshadow/Dashboard-Ops-/actions/runs/25532600487
+- 14 builds (7 tenants × 2 OS) — ETA 10-15 min
+- Sin firma (decisión 2026-05-08): MVP downloadable con UX warnings
+
+Cuando el build termine, los binarios estarán en:
+- https://github.com/aatshadow/Dashboard-Ops-/releases/tag/v0.1.0
+- Página `/download` (Vercel auto-deploy tras merge a main) los pulla automáticamente
+
+### Tareas Sprint 0 cerradas en esta sesión
+
+- ✅ C3: /api/webhooks/central firma
+- ✅ C4: JWT_SECRET validate boot
+- ✅ C6 parcial: Migration 018 RLS Fase A
+- ✅ C7: Renumber migrations
+- ✅ Cleanup `/api/webhooks/whatsapp` PUBLIC_PATHS
+- ✅ CORS Tauri origins
+- ✅ Tarea 🔵 [desktop-build] release v0.1.0 → todos los binarios desktop
+
+### Memoria persistente
+
+Para resilencia ante caída de sesión, guardé en mi memoria persistente:
+- `project_estado_2026_05_08_noche.md` — estado vivo de los 4 PRs + Migration 018 aplicada
+- `MEMORY.md` actualizado con puntero
+
 ## Conexiones
 
 - [[Sprint-Desktop-App]]
