@@ -172,14 +172,48 @@ PR `aatshadow/Dashboard-Ops-#30` · sha `31eab67` · branch `feat/sprint-arreglo
 
 Las 3 últimas se sugieren recategorizar hacia el repo `enjambre-api` donde sí podrían aplicar; aquí en Dashboard-Ops están cerradas como "no aplicable".
 
+### Bloque [testing] — 4/4 tareas ✅
+
+PR `aatshadow/Dashboard-Ops-#33` · branch `feat/sprint-arreglos-testing`.
+
+Antes el repo no tenía test infra: solo `npm run lint`. Ahora hay capa completa de unit + e2e + CI que protege main.
+
+**Stack añadido:**
+- `vitest ^2.1` + `@testing-library/react ^16` + `jsdom ^25` + `@testing-library/jest-dom`
+- `@vitest/coverage-v8` (HTML + lcov reports)
+- `@playwright/test ^1.48`
+
+**Configuración:**
+- `vitest.config.js` — env jsdom, setupFiles, coverage threshold 60% en `src/utils|hooks|lib`.
+- `playwright.config.js` — `BASE_URL` configurable; en CI apunta al preview deploy del PR.
+- `src/setupTests.js` — extiende `expect` con jest-dom + cleanup global.
+- npm scripts: `test`, `test:watch`, `test:coverage`, `test:e2e`, `test:e2e:ui`.
+
+**Tests escritos:**
+- `src/utils/permissions.test.js` — 30+ assertions sobre la matriz de roles (closer/marketing/contable/manager/cto, multi-rol comma-separated, fail-open desconocido, edge cases).
+- `src/hooks/useAsync.test.js` — 6 tests incl. el FIX histórico fnRef.
+- `tests/e2e/smoke.spec.js` — 3 e2e: login, `/api/healthcheck` con DB ping real, BookPublic `/asesorias-suiza/agenda`.
+
+**CI workflow `.github/workflows/ci.yml`:**
+- 3 jobs: lint + test (con coverage artifact) + build.
+- `concurrency: cancel-in-progress` para no acumular runs viejos.
+- Playwright e2e fuera del CI por defecto (label `run-e2e` activa, sprint siguiente).
+
+Doc: `docs/testing.md` con patrones, comandos, TODO próximos sprints.
+
+**Limitación reconocida:** sandbox bloqueó `npm install` localmente, primer ejecución real es CI tras merge.
+
 ### Estado del sprint tras este bloque
 
 | Bloque | Tareas | Estado |
 |---|---:|---|
 | Sprint 0 Higiene `[security]/[db]` | 7 | 5 done (otra terminal) |
-| `[observability]` | 5 | **5 done** (esta sesión) |
-| `[cleanup]` | 4 | **4 done** — 1 aplicada + 3 audit closeout (esta sesión) |
-| Resto | 38 | todo |
+| `[observability]` | 5 | **5 done** (sesión 1) |
+| `[cleanup]` | 4 | **4 done** — 1 aplicada + 3 audit closeout (sesión 1) |
+| `[testing]` | 4 | **4 done** (sesión 2) |
+| Resto | 34 | todo |
+
+**Total sesiones esta worktree-loop**: 25/54 done (46%). Otra terminal aporta sus propias categorías ([db], [portal], [security] adicional).
 
 ## Conexiones
 
