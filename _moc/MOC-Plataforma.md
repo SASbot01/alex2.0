@@ -13,19 +13,22 @@ Map of Content de las plataformas técnicas BlackWolf. **Dos productos en produc
 ## Visión global
 
 - [[Arquitectura-General]] — diagrama y flujos entre componentes (Dashboard-Ops)
-- [[Cargonex-Arquitectura]] — diagrama y flujos (Cargonex)
+- [[Arquitectura]] — diagrama y flujos (Cargonex)
 - [[ClientTypes]] — qué tipos de clientes existen y qué módulos ven (Dashboard-Ops)
 - [[Multi-Tenant]] — cómo se aísla cada tenant en Dashboard-Ops (y cómo NO se aísla)
 
-## Cargonex (segunda línea)
+## Cargonex (segunda línea — carpeta `cargonex/`)
 
 - [[Cargonex]] — overview, URLs, status, env
-- [[Cargonex-Arquitectura]] — slug routing, multi-tenant via JSON files, SW, API
+- [[Arquitectura]] — slug routing, multi-tenant via JSON files, SW, API
 - [[Eilers-Logistik]] — tenant fundador, en `db.json` legacy
 - [[Playbook-Crear-Tenant-Cargonex]] — onboarding nuevo cliente Cargonex
-- [[ADR-Cargonex-Stack-Separado]] — por qué stack separado de Dashboard-Ops
+- [[ADR-Cargonex-Stack-Separado]] — por qué stack separado de Apex
+- [[I+D-Cargonex]] — research, spikes, tech radar específicos
 
-## Frontend — Dashboard-Ops
+## Apex — Dashboard-Ops + Enjambre-API + capa cognitiva (carpeta `apex/`)
+
+### Frontend — Dashboard-Ops
 
 - [[Dashboard-Ops]] — repo, deploy Vercel, sidebar, app-shell
 - [[Sistema-Auth]] — auth custom + Supabase anon
@@ -33,16 +36,20 @@ Map of Content de las plataformas técnicas BlackWolf. **Dos productos en produc
 - [[Sistema-Theming]] — light/dark, FORCE_LIGHT_SLUGS, paletas per-tenant
 - [[Sistema-i18n]] — patrón ad-hoc `L(es, en, zh)`
 
-## Backend — enjambre-api
+### Backend — enjambre-api
 
 - [[Enjambre-API]] — Fastify, routes, connectors, workers
 - [[Webhooks]] — patrón actual y carencias
 - [[Brain-Decisions]] — tabla central donde cae todo el reasoning
 
-## Capa cognitiva
+### Capa cognitiva
 
 - [[Donna-y-Army]] — orquestador + commanders por dominio
 - [[Doctrines]] — los markdowns que le dicen a cada commander qué hacer
+
+### I+D Apex
+
+- [[I+D-Apex]] — RLS migration, WhatsApp BA, Hotmart, Stripe SaaS billing, Donna v2, AI Agents v2 + tech radar
 
 ## Módulos
 

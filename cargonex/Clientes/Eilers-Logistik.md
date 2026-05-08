@@ -85,7 +85,7 @@ Ver [[Politica-de-Secretos]] para la parte de exposure de claves — relacionada
 
 ## Conexiones
 
-- Plataforma: [[Cargonex]] · [[Cargonex-Arquitectura]]
+- Plataforma: [[Cargonex]] · [[Arquitectura]]
 - Onboarding (cómo se haría hoy): [[Playbook-Crear-Tenant-Cargonex]]
 - Decisión arquitectónica que afecta: [[ADR-Cargonex-Stack-Separado]]
 - Otro vertical logística (en Dashboard-Ops, no Cargonex): [[IC-Logistics]] — ojo, NO confundir

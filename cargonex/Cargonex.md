@@ -56,7 +56,7 @@ El registry global está en `data/cargonex-platform.json`:
 }
 ```
 
-Detalle completo en [[Cargonex-Arquitectura]].
+Detalle completo en [[Arquitectura]].
 
 ## Las dos onboarding
 
@@ -107,7 +107,7 @@ Branding: rediseñado 2026-05-07 para alinear con `web.cargonex.co` y la SPA —
 
 ## Conexiones
 
-- Arquitectura técnica: [[Cargonex-Arquitectura]]
+- Arquitectura técnica: [[Arquitectura]]
 - Cliente fundador: [[Eilers-Logistik]]
 - Onboarding nuevo tenant: [[Playbook-Crear-Tenant-Cargonex]]
 - Por qué stack separado de Dashboard-Ops: [[ADR-Cargonex-Stack-Separado]]

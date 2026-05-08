@@ -156,7 +156,7 @@ Efecto: `status: revoked`. `/<Slug>` devuelve 403. El data file `tenant-<clientI
 
 ## Conexiones
 
-- Producto: [[Cargonex]] · [[Cargonex-Arquitectura]]
+- Producto: [[Cargonex]] · [[Arquitectura]]
 - Tenant fundador (template): [[Eilers-Logistik]]
 - Distinción con onboarding Dashboard-Ops: [[Playbook-Onboarding-Cliente-Nuevo]]
 - Si toca rotar secret: [[Playbook-Rotar-Secret]]

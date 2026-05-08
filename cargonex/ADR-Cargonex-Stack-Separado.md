@@ -84,7 +84,7 @@ Reconsiderar consolidación si:
 
 ## Conexiones
 
-- Producto: [[Cargonex]] · [[Cargonex-Arquitectura]]
+- Producto: [[Cargonex]] · [[Arquitectura]]
 - Cliente fundador: [[Eilers-Logistik]]
 - Hardware compartido: [[Host-Docker-Layout]]
 - Producto hermano (no se mezcla): [[Dashboard-Ops]] (descrito vía [[Arquitectura-General]])
