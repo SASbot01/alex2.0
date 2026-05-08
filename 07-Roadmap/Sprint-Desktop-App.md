@@ -12,13 +12,24 @@ end_date: 2026-05-25
 
 Convertir [[Dashboard-Ops]] en app de escritorio descargable usando **Tauri**. Cero refactor de la SPA actual — Tauri es un wrapper alrededor del build de Vite con un WebView nativo del SO.
 
-## Métricas
+## Métricas (post-decisiones 2026-05-08)
 
-- **20 tareas** · **59 horas** · 15 high · 2 medium · 3 low
-- **MVP** (binarios firmados descargables): 15 tareas high = **42h ≈ 5 días-hombre**
+- **23 tareas** · **74.5 horas** · 13 high · 4 medium · 6 low
+- **MVP sin firmas** (binarios descargables, abrir con "click derecho > Abrir igualmente" Mac + "Run anyway" Win): **44h high ≈ 5.5 días-hombre**
 - **Sprint UUID DB**: `0e26d64e-dd2d-46d5-8278-e78318fba0a0`
 - **Tenant**: black-wolf
 - **Plazo**: 2026-05-08 → 2026-05-25
+
+## Decisiones tomadas (2026-05-08)
+
+| Decisión | Elección | Implica |
+|---|---|---|
+| Apple Developer Account | **Diferido** | MVP sin firma Mac. Usuario Mac: "click derecho → Abrir → Abrir igualmente" la primera vez |
+| Win code-signing cert | **Diferido** | MVP sin firma Win. Usuario Win: SmartScreen "More info → Run anyway" la primera vez |
+| Multi-tenant | **Opción B** — builds separados per-tenant | `Hugo-Dashboard.dmg`, `Portillo-Dashboard.dmg`, etc. Cada tenant ve su marca |
+| Versión inicial | `v0.1.0-prerelease` | Sin SLA, etiqueta de no producción |
+
+**Impacto**: ahorro ~600-700€/año en certs + ~15h de tareas de signing. MVP arrancable en ~5.5 días-hombre. Cuando se distribuya externamente o se quiera UX limpia, se compran los certs y se activan las 6 tareas en `low` (Mac signing + Win signing + Pre-requisitos + App Stores + Optimización).
 
 ## Por qué Tauri y no Electron
 
@@ -98,25 +109,88 @@ Lo que SÍ cambia:
 - **`Dashboard-Ops/src/main.jsx`**: añadir manejo de URL inicial (la app abre en `index.html`, no en `central.blackwolfsec.io/login` automáticamente).
 - **API URL absoluto**: la app desktop sigue hablando con `central.blackwolfsec.io` y `enjambre.blackwolfsec.io` por HTTPS. Los datos viven igual en Supabase + enjambre-api.
 
-## Multi-tenant en desktop — problema interesante
+## Multi-tenant en desktop — Opción B (decidida 2026-05-08)
 
-La web actual usa URLs `central.blackwolfsec.io/<clientSlug>/...`. En la app desktop **no hay URL bar**. Opciones:
+**Decisión**: builds separados per-tenant. Cada cliente ve SU app con SU marca.
 
-**Opción A — Pantalla de selección al primer login**:
-- App fresh → "Selecciona tu organización" → input slug + lista guardada
-- Tras login con éxito, guardar `lastSlug` en store
-- Próxima vez abre directo en ese slug
+```
+Hugo-Dashboard-Mac-Universal.dmg     → app productName "Hugo Dashboard", icon Hugo
+Portillo-Dashboard-Mac-Universal.dmg → "Asesoría Suiza Dashboard", icon Asesoría Suiza
+FBA-Academy-Dashboard-Win-x64.exe    → "FBA Academy Dashboard", icon FBA
+...
+```
 
-**Opción B — App pre-configurada per-tenant**:
-- Builds separados con `clientSlug` baked: `BlackWolf-Hugo.dmg`, `BlackWolf-Portillo.dmg`, etc.
-- Más fricción para distribuir, pero el alumno ve "su app" no genérica.
+### Implementación
 
-**Opción C — Login con email → backend devuelve slug del usuario**:
-- Email único en la org → backend resuelve a qué `client_id` pertenece
-- App auto-navega a su slug
-- Necesita backend endpoint nuevo `/api/auth/resolve-tenant`
+1. **`src-tauri/tenants.json`** centraliza metadata per-tenant:
+   ```json
+   {
+     "enformaconhugo": {
+       "productName": "Hugo Dashboard",
+       "identifier": "io.blackwolfsec.dashboard-ops.enformaconhugo",
+       "icon": "icons/hugo/icon.icns",
+       "primaryColor": "#XXXXXX",
+       "loginUrl": "https://central.blackwolfsec.io/enformaconhugo/login"
+     },
+     "asesorias-suiza": { ... }
+   }
+   ```
 
-Recomendación: **Opción A para MVP, Opción C cuando llegue auth real**. Las apps generic descargables son lo más común (Slack, Discord, Linear todos funcionan así).
+2. **Build time**: variable env `TENANT_SLUG=enformaconhugo` lee `tenants.json` y patchea `tauri.conf.json` antes de `cargo tauri build`.
+
+3. **CI matrix** en GitHub Actions:
+   ```yaml
+   strategy:
+     matrix:
+       tenant: [enformaconhugo, asesorias-suiza, fba-academy, yc-logistics, creator-founder, detras-de-camara]
+       os: [macos-latest, windows-latest]
+   ```
+   = 6 tenants × 2 OS = 12 builds por release. Tiempo estimado con cache cargo: ~10-15 min total.
+
+4. **Constants embebidos**: `src/constants/tenantConfig.js` se genera al build con el slug correcto. Login form pre-llenado, no muestra picker.
+
+5. **Naming convention** binarios: `<Tenant>-Dashboard-<OS>-<arch>.<ext>`.
+
+### Trade-offs vs Opción A (slug picker)
+
+✅ Cliente ve SU marca, sensación de producto dedicado
+✅ Login pre-llenado, 0 fricción tras descarga
+✅ Posibilidad futura de pricing tier (build con features extra para tenant premium)
+❌ N artefactos por release (vs 1) — gestionable con CI matrix
+❌ Cuando llegue cliente nuevo, hay que añadir slug a `tenants.json` y rebuildar
+❌ Si onboardas 50 clientes, 100 binarios por release — buscar paths filters por tenant cambiado
+
+## Sin firmar — UX del primer abrir
+
+### Mac
+La primera vez que el usuario abre el `.dmg`, Gatekeeper bloquea con "App de desarrollador no identificado".
+
+**Workaround**:
+1. **Click derecho sobre la app** (no doble-click)
+2. **Abrir** desde el menú contextual
+3. Diálogo de confirmación → **Abrir**
+4. La siguiente vez, ya se abre normal con doble-click
+
+Documentar en banner de `/download`.
+
+### Windows
+SmartScreen muestra "Windows protegió tu PC".
+
+**Workaround**:
+1. Click en **More info** (texto pequeño, fácil de no ver)
+2. Aparece botón **Run anyway**
+3. Click → instala normal
+
+Documentar en banner de `/download`.
+
+### Cuándo comprar los certs
+
+Comprar **antes** de:
+- Distribuir a usuarios fuera del círculo de confianza interno
+- Soporte técnico se queja de "muchos usuarios reportan que no saben abrir la app"
+- Onboarding masivo de clientes nuevos
+
+Las 3 tareas en `low` (Mac signing + Win signing + Pre-requisitos compra) se reactivan a high cuando llegue ese momento.
 
 ## Distribución (cómo lo descarga la gente)
 

@@ -112,7 +112,7 @@ Punto de entrada del segundo cerebro. Todo lo que necesitas saber sobre BlackWol
 
 > **Sprints operativos en producción** (`central.blackwolfsec.io/black-wolf/task-management`):
 > - [[Sprint-Setter-WhatsApp]] — 25 tareas · 72.5h · **MVP lunes 2026-05-11** (19.5h bloqueantes 🔴). Setter full optimizado para grupos+contactos.
-> - [[Sprint-Desktop-App]] — 20 tareas · 59h · Dashboard-Ops nativa Mac+Win con Tauri. MVP descargable en ~5 días-hombre.
+> - [[Sprint-Desktop-App]] — 23 tareas · 74.5h · Dashboard-Ops nativa Mac+Win con Tauri (multi-tenant Opción B, signing diferido). MVP descargable en ~5.5 días-hombre.
 > - [[Sprint-Arreglos]] — 54 tareas · 339h. Hallazgos auditoría 2026-05-07 (security, dx, observability, etc).
 
 ---

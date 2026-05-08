@@ -30,7 +30,7 @@ Del MVP avanzado actual al "SaaS empresarial vendible con compliance".
 | Sprint | Tareas | Horas | Foco | UUID |
 |---|---:|---:|---|---|
 | [[Sprint-Setter-WhatsApp]] | 25 | 72.5h | Setter listo lunes 2026-05-11 | `523b8b96-5d96-4200-94ce-639a4a0658c1` |
-| [[Sprint-Desktop-App]] | 20 | 59h | Dashboard-Ops nativa Mac+Win (Tauri) | `0e26d64e-dd2d-46d5-8278-e78318fba0a0` |
+| [[Sprint-Desktop-App]] | 23 | 74.5h | Dashboard-Ops nativa Mac+Win (Tauri, Opción B per-tenant, signing diferido) | `0e26d64e-dd2d-46d5-8278-e78318fba0a0` |
 | [[Sprint-Arreglos]] | 54 | 339h | Hallazgos auditoría plataforma | `4816529a-c02a-4e9a-87c6-341b072332a7` |
 
 Todos en módulo Tareas del tenant `black-wolf`: `central.blackwolfsec.io/black-wolf/task-management`.
