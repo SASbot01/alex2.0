@@ -134,6 +134,53 @@ Este Sprint Arreglos **agrega tareas operativas concretas** del [[Roadmap-Estrat
 
 Si un día decides expandir el plan, **cada tarea es una unidad de trabajo concreta** que se puede ejecutar.
 
+## Cerrado 2026-05-08
+
+### Bloque [observability] — 5/5 tareas ✅
+
+PR `aatshadow/Dashboard-Ops-#29` · sha `3709f83` · branch `feat/sprint-arreglos-observability`.
+
+Capa nueva en `api/_lib/`:
+
+- `logger.js` — pino structured JSON con redact de auth/cookie/password/token. Fallback graceful a console-shim si pino no disponible.
+- `request-id.js` — `ensureRequestId(req, res)` resuelve `X-Request-Id` entrante o genera UUID. Inyecta header de respuesta.
+- `sentry.js` — `@sentry/node` lazy init si `SENTRY_DSN` seteado (tier free Developer, 5k errors/mes). No-op silente sin DSN.
+- `error-handler.js` — `withErrorHandler(handler)` wrapper con `HttpError` class. Body uniforme `{error, requestId}`.
+- `api/healthcheck.js` — `GET /api/healthcheck` con pings reales a Supabase + Stripe + Resend. Siempre 200 con `{ok, services, version, env, uptimeSec, requestId}`.
+
+Migrado `api/asesoria-suiza-jobs.js` como demo del patrón. Doc en `docs/observability.md`.
+
+Deps añadidas: `pino ^9.14`, `@sentry/node ^9.47`.
+
+**Pendiente operativo:**
+- Crear DSN en sentry.io plan free + setear `SENTRY_DSN` en Vercel env vars.
+- (Opcional) uptime monitor externo apuntando a `/api/healthcheck`.
+- Migración progresiva del resto de handlers en sprints siguientes.
+- `@sentry/react` frontend con DSN distinto + ErrorBoundary global (aplazado).
+
+### Bloque [cleanup] — 1/4 aplicada + 3/4 audit closeout
+
+PR `aatshadow/Dashboard-Ops-#30` · sha `31eab67` · branch `feat/sprint-arreglos-cleanup`.
+
+**Aplicada ✅:** `Mover scripts check_*.mjs fuera de src` — adaptada al estado real (no había `check_*` literal, sí 14 one-shots dispersos). Movidos a `scripts/dev/` con README explicativo. Mantenidos en raíz solo `build-tenant.mjs` y `generate-icons.mjs` (ambos cableados en `package.json`).
+
+**Audit closeout (no aplicaban a Dashboard-Ops, marcadas done con justificación):**
+
+- `Limpieza ManyChat residual` — ManyChat es código **activo** aquí (`api/webhook/message.js` recibe inbound, MyIntegrationsPage / IntegrationsPage / AiAgentsInstagram / AiSetterPage lo consumen). Sin residual que limpiar.
+- `Eliminar bot Discord Node deprecated` — el bot vive como systemd `agente-discord.service` activo, consumido por `AiAgentsDiscord.jsx` en producción vía `VITE_API_URL`. No es deprecated.
+- `Quitar /api/webhooks/whatsapp de PUBLIC_PATHS` — no existe convención `PUBLIC_PATHS` ni endpoint con esa ruta en este repo. Probablemente apunta a `enjambre-api` o auth middleware del backend.
+
+Las 3 últimas se sugieren recategorizar hacia el repo `enjambre-api` donde sí podrían aplicar; aquí en Dashboard-Ops están cerradas como "no aplicable".
+
+### Estado del sprint tras este bloque
+
+| Bloque | Tareas | Estado |
+|---|---:|---|
+| Sprint 0 Higiene `[security]/[db]` | 7 | 5 done (otra terminal) |
+| `[observability]` | 5 | **5 done** (esta sesión) |
+| `[cleanup]` | 4 | **4 done** — 1 aplicada + 3 audit closeout (esta sesión) |
+| Resto | 38 | todo |
+
 ## Conexiones
 
 - Origen: [[Resumen-Auditoria]] · [[Bugs-Criticos]] · [[Deuda-Tecnica]] · [[Codigo-Zombie]]
