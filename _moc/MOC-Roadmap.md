@@ -25,9 +25,14 @@ Del MVP avanzado actual al "SaaS empresarial vendible con compliance".
 | 7 | [[Sprint-7-DX-Cleanup]] | Modularizar god files | 2 semanas | pendiente |
 | 8 | [[Sprint-8-Component-Library]] | Lib UI + Storybook | 3 semanas | pendiente |
 
-## Sprint operativo
+## Sprints operativos vivos
 
-- [[Sprint-Arreglos]] — **54 tareas** consolidadas de toda la auditoría, vivas en el módulo Tareas del tenant `black-wolf`. URL: `central.blackwolfsec.io/black-wolf/task-management`. Sprint UUID `4816529a-c02a-4e9a-87c6-341b072332a7`.
+| Sprint | Tareas | Horas | Foco | UUID |
+|---|---:|---:|---|---|
+| [[Sprint-Setter-WhatsApp]] | 25 | 72.5h | Setter listo lunes 2026-05-11 | `523b8b96-5d96-4200-94ce-639a4a0658c1` |
+| [[Sprint-Arreglos]] | 54 | 339h | Hallazgos auditoría plataforma | `4816529a-c02a-4e9a-87c6-341b072332a7` |
+
+Ambos en módulo Tareas del tenant `black-wolf`: `central.blackwolfsec.io/black-wolf/task-management`.
 
 ## En curso
 
