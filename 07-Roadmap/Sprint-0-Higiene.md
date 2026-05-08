@@ -148,13 +148,26 @@ Esto es transicional — la migración real a httpOnly cookies es parte de [[Spr
 
 ## Definition of Done
 
-- [ ] Las 7 API keys rotadas. Old keys dan 401 contra el servicio.
-- [ ] Webhook Stripe Hugo configurado y backfilled. Test E2E pasa.
-- [ ] Boot del backend crashea si `JWT_SECRET` falta.
-- [ ] `/api/webhooks/central` rechaza requests sin signature.
-- [ ] Migrations 045-048 renumeradas. Fresh deploy en staging OK.
-- [ ] Migration 018 Fase A aplicada en producción. Sin regresiones.
-- [ ] `bw_superadmin` ya no es válido desde DevTools.
+- [ ] Las 7 API keys rotadas. Old keys dan 401 contra el servicio. *(BLOQUEA Alejandro — requiere acceso dashboards)*
+- [ ] Webhook Stripe Hugo configurado y backfilled. Test E2E pasa. *(BLOQUEA Alejandro — requiere acceso Stripe Hugo)*
+- [x] Boot del backend crashea si `JWT_SECRET` falta. *(commit 4397db7, ya en main)*
+- [x] `/api/webhooks/central` rechaza requests sin signature. *(commit 4397db7 + PR #28 fix de callers Dashboard-Ops 2026-05-08)*
+- [x] Migrations 045-048 renumeradas. Fresh deploy en staging OK. *(commit 0229c35)*
+- [x] Migration 018 Fase A aplicada en producción. Sin regresiones. *(2026-05-07 noche)*
+- [x] `bw_superadmin` ya no es válido desde DevTools. *(PR #31 — server-side verify on boot, transicional)*
+
+## Cierre 2026-05-08 (sesión paralela 2 terminales)
+
+**Hecho (5 de 7 DoD items):**
+- 4 crm_tasks del Sprint Arreglos en BD que estaban como `todo` pero ya estaban hechas en código → marcadas `done` con nota del commit.
+- **PR #28 aatshadow/Dashboard-Ops-** — bug post-Sprint 0: `bridge-enjambre.js` y `agent.js` no enviaban `x-webhook-secret` en sus llamadas a `/api/webhooks/central`. Desde el deploy del Sprint 0 todo `Dashboard-Ops → enjambre-api` devolvía 401 silencioso. Fix + Vercel env `CENTRAL_WEBHOOK_SECRET` seteada (id `mPwsym12vTBaO4fm`).
+- **PR #31 aatshadow/Dashboard-Ops-** — T0.7 cerrado: nuevo `GET /api/admin?action=verify` + `src/lib/superadmin.js` helper + `useEffect` de boot en `ClientApp.jsx`. Los 15 callsites legacy siguen leyendo `localStorage.bw_superadmin` directo, pero el value solo está si el JWT verifica server-side al montar.
+- **PR #3 SASbot01/ejambre** — race condition `findOrCreateCrmContact`. Defensive re-find recovery tras insert failed. Cura definitiva (UNIQUE INDEX) bloqueada por 151 pares duplicados preexistentes.
+
+**Pendiente para Alejandro:**
+- Mergear PRs #28, #31 (aatshadow/Dashboard-Ops-) y #3 (SASbot01/ejambre).
+- Rotar las 7 API keys (T0.1) — playbook listo.
+- Configurar webhook Stripe Hugo (T0.2) — 15 min en dashboard Stripe.
 
 ## Conexiones
 
