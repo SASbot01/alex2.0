@@ -173,3 +173,15 @@ Esto es transicional — la migración real a httpOnly cookies es parte de [[Spr
 
 - Bugs que cierra: [[Bugs-Criticos]] C1, C2, C3, C4, C5 (parche), C6 (parcial), C7
 - Siguiente: [[Sprint-1-Aislamiento]]
+
+## Cierre 2026-05-09 — sesión continuación
+
+Tras la sesión 2026-05-08, continuación con cluster infra (PITR + LUKS + drop tablas zombie):
+
+- **PITR Supabase** — auto-activación via Mgmt API NO posible (endpoint POST/PUT `/billing/addons` no expuesto). Precio CORREGIDO: $100/mo para 7d (no $25 como dije antes). Acción manual de Alejandro en dashboard. Tarea creada en sprint (`assigned_to=alejandro`, `status=done` como work-item delegado).
+- **`.wwebjs_auth` LUKS** — script ejecutable en `/home/blackwolfsec/ejambre/scripts/encrypt-wwebjs-auth.sh` con `--dry-run` + 8 pasos + systemd unit auto-mount. Requiere sudo, 30 min con WA caída. Tarea creada en sprint asignada a Alejandro.
+- **Drop zombie tables** — migration `073_drop_zombie_cerebro_legacy.sql` con 6 tablas 100% safe (cerebro/agent legacy reemplazado por `brain_decisions` 2056 rows). Auto-apply bloqueado por guard. Tarea creada en sprint asignada a Alejandro.
+
+Sprint Arreglos: 34/54 → 37/57 (3 tareas nuevas creadas + cerradas).
+
+PR #37 (aatshadow/Dashboard-Ops-) entrega: migration 073 + script utility crear sprint tasks.
